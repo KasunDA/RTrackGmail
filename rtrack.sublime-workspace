@@ -1,0 +1,816 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"unsest",
+				"unsetAllRecipients"
+			],
+			[
+				"check",
+				"checkError"
+			],
+			[
+				"h",
+				"hand"
+			],
+			[
+				"msg",
+				"msg-error"
+			],
+			[
+				"msg-",
+				"msg-error-bg"
+			],
+			[
+				"backgrou",
+				"background-color"
+			],
+			[
+				"disp",
+				"displayName"
+			],
+			[
+				"async",
+				"asyncResult"
+			],
+			[
+				"remove",
+				"removeOptionsFromBody"
+			],
+			[
+				"aync",
+				"asyncContext"
+			],
+			[
+				"rpost",
+				"rpost-opts-field"
+			],
+			[
+				"addOp",
+				"addOptionsStringAttachment"
+			],
+			[
+				"encryp",
+				"encryptedOptionsString"
+			],
+			[
+				"Asyn",
+				"AsyncResultStatus"
+			],
+			[
+				"Out",
+				"OutlookWebApp"
+			],
+			[
+				"que",
+				"queryStringOptions"
+			],
+			[
+				"mail",
+				"mailbox"
+			],
+			[
+				"con",
+				"context"
+			],
+			[
+				"att",
+				"attachmentId"
+			],
+			[
+				"asyn",
+				"asyncResult"
+			],
+			[
+				"rem",
+				"removeRegDataAttachment"
+			],
+			[
+				"asy",
+				"asyncResult"
+			],
+			[
+				"padd",
+				"paddingSize	int64 ν"
+			],
+			[
+				"make",
+				"makePaddingSizeSlice	[]byte ƒ"
+			],
+			[
+				"in",
+				"indexLength	 Ɩ"
+			],
+			[
+				"signal",
+				"signalHandler	 ƒ"
+			],
+			[
+				"Prin",
+				"Println	n int, err error ƒ"
+			],
+			[
+				"vali",
+				"validateGithubCmd	 ƒ"
+			],
+			[
+				"Gith",
+				"GithubToken	string ν"
+			],
+			[
+				"Git",
+				"GithubID	string ν"
+			],
+			[
+				"Gi",
+				"GithubID	string ν"
+			],
+			[
+				"Sp",
+				"Sprintf	string ƒ"
+			],
+			[
+				"Down",
+				"DownloadReleaseAssetManager	error ƒ"
+			],
+			[
+				"init",
+				"initConfig	Config ƒ"
+			],
+			[
+				"config",
+				"configFile	string ν"
+			],
+			[
+				"pa",
+				"PassThru	struct ʈ"
+			],
+			[
+				"D",
+				"DownloadAsset	error ƒ"
+			],
+			[
+				"T",
+				"Time	time.Time ν"
+			],
+			[
+				"Repo",
+				"RepositoryRelease	struct ʈ"
+			],
+			[
+				"Dow",
+				"DownloadReleaseAsset	error ƒ"
+			],
+			[
+				"Rep",
+				"RepositoryRelease	struct ʈ"
+			],
+			[
+				"Rele",
+				"RepositoryRelease	struct ʈ"
+			],
+			[
+				"P",
+				"PerPage	int ν"
+			],
+			[
+				"Re",
+				"ReferenceListOptions	struct ʈ"
+			],
+			[
+				"Reposti",
+				"RepositoryListOptions	struct ʈ"
+			],
+			[
+				"Lo",
+				"Login	*string ν"
+			],
+			[
+				"O",
+				"Owner	*github.User ν"
+			],
+			[
+				"ListR",
+				"ListReleaseAssets	[]github.ReleaseAsset, *github.Response, error ƒ"
+			],
+			[
+				"E",
+				"Equal	bool ƒ"
+			],
+			[
+				"s",
+				"skip_cleanup"
+			],
+			[
+				"New",
+				"NewMessage	*Message ƒ"
+			],
+			[
+				"conso",
+				"consoleErr	io.Writer ν"
+			],
+			[
+				"Err",
+				"ErrPadFilnameFormat	error ν"
+			],
+			[
+				"C",
+				"cleanPads	error ƒ"
+			],
+			[
+				"dec",
+				"DecodeString	[]byte, error ƒ"
+			],
+			[
+				"R",
+				"ReadHash	bool ƒ"
+			],
+			[
+				"hash",
+				"hashLength	 Ɩ"
+			],
+			[
+				"size",
+				"ErrPaddingSize	error ν"
+			],
+			[
+				"get",
+				"getFileSize	int64, error ƒ"
+			],
+			[
+				"Mu",
+				"MultiWriter	io.Writer ƒ"
+			],
+			[
+				"padR",
+				"padRecoveryFile	string ν"
+			],
+			[
+				"err",
+				"err	 ν"
+			],
+			[
+				"pad",
+				"padRecoveryPath	string ν"
+			],
+			[
+				"Pad",
+				"PadRecoveryPath	string ν"
+			],
+			[
+				"Match",
+				"MatchString	bool ƒ"
+			],
+			[
+				"lo",
+				"logLevel	int ν"
+			],
+			[
+				"io",
+				"ioutil	 package ρ"
+			],
+			[
+				"p",
+				"padID	string ν"
+			],
+			[
+				"N",
+				"NewOtp	*Otp ƒ"
+			],
+			[
+				"enc",
+				"encryptedHdr	[]byte ν"
+			],
+			[
+				"en",
+				"EncodeToString	string ƒ"
+			],
+			[
+				"Pri",
+				"Println	n int, err error ƒ"
+			],
+			[
+				"S",
+				"Stdout	*os.File ν"
+			],
+			[
+				"St",
+				"Stdout	*os.File ν"
+			],
+			[
+				"sli",
+				"slideDown"
+			],
+			[
+				"exp",
+				"expandMenuItem"
+			],
+			[
+				"enx",
+				"expandMenuItem"
+			],
+			[
+				"side",
+				"sidenote-expand-btn"
+			],
+			[
+				"office",
+				"office365app"
+			],
+			[
+				"Pr",
+				"Printf	n int, err error ƒ"
+			],
+			[
+				"out",
+				"outFile	string ν"
+			],
+			[
+				"e",
+				"exchangeType	*string ν"
+			],
+			[
+				"exchang",
+				"exchangeName	*string ν"
+			],
+			[
+				"ex",
+				"exchangeType	string ν"
+			],
+			[
+				"Queue",
+				"QueueDeclare	amqp.Queue, error ƒ"
+			],
+			[
+				"header",
+				"headerSize	int ν"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 127.0,
+		"last_filter": "Instal",
+		"selected_items":
+		[
+			[
+				"Instal",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Preferences: Settings - User"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+	],
+	"file_history":
+	[
+		"/Users/timjenks/Code/chrome/extension1/app/scripts.babel/contentscript.js",
+		"/Users/timjenks/Code/chrome/extension1/app/images/icon-128.png",
+		"/Users/timjenks/Code/chrome/extension1/app/_locales/en/messages.json",
+		"/Users/timjenks/Documents/Project/O365/Long Descriptions",
+		"/Users/timjenks/Documents/Project/O365/RPost Dev Accounts.md",
+		"/Users/timjenks/Code/O365/Office365App/app/default.html",
+		"/Users/timjenks/Code/O365/Office365App/app/styles/scss/main.scss",
+		"/Users/timjenks/Code/O365/Office365App/app/scripts/utilities.js",
+		"/Users/timjenks/Code/O365/Office365App/app/styles/main.css",
+		"/Users/timjenks/Code/O365/Office365App/app/scripts/ui.js",
+		"/Users/timjenks/Code/O365/Office365App/bower.json",
+		"/Users/timjenks/Code/RmailNeon/.bowerrc",
+		"/Users/timjenks/Code/O365/Office365App/.bowerrc",
+		"/Users/timjenks/Code/O365/Office365App/app/scripts/functions.js",
+		"/Users/timjenks/Code/O365/Office365App/app/manifest.xml",
+		"/Users/timjenks/Code/O365/Office365App/server/util.js",
+		"/Users/timjenks/Code/O365/Office365App/server/config.js",
+		"/Users/timjenks/Code/O365/Office365App/server/config/config.default.json",
+		"/Users/timjenks/Code/O365/Office365App/app/scripts/handleRmailFeatures.js",
+		"/Users/timjenks/Code/GmailApp/rpost/chrome-extension/app/src/inject/inject.js",
+		"/Users/timjenks/Code/O365/Office365App/server/config/config.development.json",
+		"/Users/timjenks/Code/O365/Office365App/app/scripts/handleRmalFeatures.js",
+		"/Users/timjenks/Code/Angular/angular-gulp/gulpfile.js",
+		"/Users/timjenks/Code/Angular/angular-gulp/package.json",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/.netrc",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/cmd/otp/otp.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/.travis.yml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/testutils.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/otp_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/queues.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/otp.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/signals/main.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/docs/Debugging.md",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/docs/padBalancing.js",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/README.md",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/README.md",
+		"/Users/timjenks/Code/PhantomJS/test/test1.js",
+		"/Users/timjenks/Code/mocha/test/mytest.js",
+		"/Users/timjenks/Desktop/BA/Business_Analyst.md",
+		"/Users/timjenks/Code/PhantomJS/test/testdoc.txt",
+		"/Users/timjenks/Code/PhantomJS/test1/test1",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/cmd/otp/config.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/otpctl.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/daemon/daemon_linux_systemd.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/daemon/daemon_darwin.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/cmd/otp/default.config.yml",
+		"/Users/timjenks/Desktop/BA/Interview/BA-PM Interview Questions.md",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/otpctl/otpctl.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/.travis.yml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/otpctl/github.go",
+		"/Users/timjenks/Library/Application Support/Sublime Text 3/Packages/GoSublime/CHANGELOG.md",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/.netrc",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/otpctl/config.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/otpctl/otpctl.yml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/log.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/otpctl/validate.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/otpctl/pads.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/otp.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctllib/db.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctllib/github.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctllib/log.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctllib/otpctl.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctllib/pads.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctllib/pads_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctllib/utils.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/cmd/otp.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/data.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/io.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/logs.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/pads_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/util.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otplib/validation.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/data.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/io.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/logs.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/otp_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/pads_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/queues.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/testutils.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/util.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp/validation.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/github.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/pads_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/docs/tests.txt",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/otpctl.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/pads.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/github.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/tests/github_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/cmd/config.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/github_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/db.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/config.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/pads.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/ctl/utils.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/log.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpadmin/github.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpadmin/admin/github_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpadmin/github_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpctl/otpctl.yml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpadmin/pads_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpadmin/testutils.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/otp.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/.travis.yml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/otp.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/log.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/config.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/queues.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/default.config.yaml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/yaml/test.yaml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/yaml/main.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/config.yaml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otp/sample.config.yaml",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/logs.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/otp_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/data.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp/otp.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otpsvc/otpsvc.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp/logs.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/io.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/validation.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/util.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/testutils.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otplib/pads_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp/otp_test.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp/testutils.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp/validation.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp/data.go",
+		"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp/util.go"
+	],
+	"find":
+	{
+		"height": 22.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp",
+			"/Users/timjenks/Desktop/OTP Docs/FRAMA",
+			"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/otp",
+			"/Users/timjenks/Code/go/src/github.com/timjenks/otpserver/ot",
+			"/Users/timjenks/Code/Node/Frameworks/LoopBack/MailTrack",
+			"/Users/timjenks/Code/Node/Frameworks/LoopBack/Slim-Admin-Full-Package-v3.0/slim/client,/Users/timjenks/Code/Node/Frameworks/LoopBack/loopback-getting-started-intermediate,/Users/timjenks/Code/Node/Frameworks/LoopBack/MailTrack",
+			"/Users/timjenks/Code/Node/Frameworks/LoopBack/Slim-Admin-Full-Package-v3.0/slim/client,/Users/timjenks/Code/Node/Frameworks/LoopBack/loopback-getting-started-intermediate",
+			"/Users/timjenks/Code/Node/Frameworks/LoopBack/Slim-Admin-Full-Package-v3.0/slim/client",
+			"/Users/timjenks/Downloads/Slim-Admin-Full-Package v3.0/slim/client",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"write",
+			".cc",
+			"cc",
+			"updateAllRecipients",
+			"checkUserAgent",
+			"enableRmailFeatures",
+			"stripSuffix",
+			"selected",
+			"write",
+			"injectOptions",
+			"removeOptionsFromBody",
+			"message",
+			"checkHtml",
+			"x-rpost-app",
+			"address",
+			"x_rpost",
+			"removeOptions",
+			"setRecipients",
+			"prependItem",
+			"checkU",
+			"checkUserAgent",
+			"injectHiddenOptsSpan",
+			"addOptionsStringAttachment",
+			"injectHidden",
+			"write",
+			"checkUser",
+			"Office",
+			"check",
+			"baseRpostOptionsString",
+			"X-RPost-App",
+			"console.log",
+			"XRPost",
+			"querySTringOptions",
+			"addOptionsStringAttachment",
+			"mailbox.item",
+			"console.error",
+			"stripSuffix",
+			"checkUserAgent",
+			"ErrParseHeader",
+			"ReadHeader",
+			"createMsg",
+			"createMessage",
+			"Append",
+			"padding",
+			"createPadding",
+			"go",
+			"source",
+			"Config",
+			"ListReleases",
+			"adm",
+			"otp",
+			"admin",
+			"Errorf",
+			"logFile",
+			"log",
+			"handle",
+			"go func",
+			"ReadHash",
+			"cleanPads",
+			"addDsn",
+			"EncryptMsg",
+			"CreateMsg",
+			"createDsn",
+			"OtpXfer",
+			"OtpDecrypt",
+			"OtpEncryp",
+			"cfg.",
+			"c.",
+			"go",
+			"m.msgID",
+			"m",
+			"LogInit",
+			"c",
+			"dir",
+			"cleanPads",
+			"index",
+			"verify",
+			"verifyHash",
+			"m.msgPath",
+			"fSize",
+			"f.size",
+			"f.szie",
+			"append",
+			"FindAllStringSubmatch",
+			"regex",
+			"ErrorInUse",
+			"ErrorOtpVerify",
+			"ErrOtpVerify",
+			"ErrHashVerify",
+			"Err",
+			"ErrorInUse",
+			"GetIndex",
+			"616536376536",
+			"CE32",
+			"m.size",
+			"m.Size",
+			"m.index",
+			"m.Index",
+			"rSize",
+			"scrub",
+			"recipientPadData",
+			"receipientPadData",
+			"scrub",
+			"Backup",
+			"rsync",
+			"breakpoint",
+			"GetUserID",
+			"breakpoint",
+			"brea",
+			"offset",
+			"breakpoint",
+			"recipientPadPath := path.Join(padPath, padName)",
+			"readPad",
+			"ReadPad",
+			"GetPad",
+			"regexp",
+			"match",
+			"ErrHashVerify",
+			"GetPad",
+			"Error retreiving recipient pad from DB",
+			"regex",
+			"regexp",
+			"re",
+			"pad[0]",
+			"Strings",
+			"match",
+			"~",
+			"OAuth2Strategy"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"console.log",
+			"ctl",
+			"adm",
+			"Printf",
+			"o.m.msgId",
+			"",
+			"Recovery",
+			"m.dsns",
+			"31320000 00000000 00000000 A2595317 91DE893D C8AA9B9E 2006C797 3231A732 3C3AB0AA DB5CFE3C F3405385 F1DF760E EDBF21E1 4EBEB10D 058EF895 B7364064 4532B7FF 224ACCF0 C37AAE50 3C9FBFB8 EFB9D61E A76FF49C 76AF335B 391D5047 A7B2B3C9 4CF224E6 8647D649 60E082A3 1453B64A CD1C1BEF 16DC98E3 8014593F B6410E38 A681945F E91A21ED 60AC1615 C5C048E7 3D205942 B30D67BE 698DB79E A4CD578E 7F5A06B4 DD2184EC A1B7AEF0 061C681A 35F7057E 77B2690A AF125E08 7DD4DD22 E5B8CC27 F8A6B5EB 71D229F2 B0EBF9C9 69F4E3D4 2126578C 2EDAE8BA C7564091 C7E8B360 E0A69939 7CDF7F56 6DEF9D3F E8790253 01928842 3523D7F6 BEC71731 7258220C 36505171 70168F6B F28F9FB0 2BDA4BD7 3DA8157E 25CEA2CA F7520E9E E87BCB3E 354AE0CD 60F5DE73 9DB2BB9E 21E492EE 9570F2B2 D2D1333B B8185624 C65A488D A6E05CBA 20982E15 3BF945D2 A6127A86 904224AC 5DEB5667 0EF2A116 AB845B54 D5A4153F 267A91F3 3B9DFC2F F6C0E237 40A30466 9DDB16B9 485C0570 B33C8C0F CBD46C4C 7A868ACC B26809B7 37B2EFBA 24DE1068 EC57E069 39A529F5 872E289C 224E1AFE 445389AE 4A259C5E 9B70CCFA B0D25D0C 5D28572F E40C8AF2 F2757917 96F7C30B D6AFECB9 A0A3F29A 196027D0 909D3134 C2FEFA8D 9FC13E9C 883607CE 60416C1F 878DF21B CBF68E58 4A570E9D B4732F8A 48801C56",
+			"\n31320000 00000000 00000000 A2595317 91DE893D C8AA9B9E 2006C797 3231A732 3C3AB0AA DB5CFE3C F3405385 F1DF760E EDBF21E1 4EBEB10D 058EF895 B7364064 4532B7FF 224ACCF0 C37AAE50 3C9FBFB8 EFB9D61E A76FF49C 76AF335B 391D5047 A7B2B3C9 4CF224E6 8647D649 60E082A3 1453B64A CD1C1BEF 16DC98E3 8014593F B6410E38 A681945F E91A21ED 60AC1615 C5C048E7 3D205942 B30D67BE 698DB79E A4CD578E 7F5A06B4 DD2184EC A1B7AEF0 061C681A 35F7057E 77B2690A AF125E08 7DD4DD22 E5B8CC27 F8A6B5EB 71D229F2 B0EBF9C9 69F4E3D4 2126578C 2EDAE8BA C7564091 C7E8B360 E0A69939 7CDF7F56 6DEF9D3F E8790253 01928842 3523D7F6 BEC71731 7258220C 36505171 70168F6B F28F9FB0 2BDA4BD7 3DA8157E 25CEA2CA F7520E9E E87BCB3E 354AE0CD 60F5DE73 9DB2BB9E 21E492EE 9570F2B2 D2D1333B B8185624 C65A488D A6E05CBA 20982E15 3BF945D2 A6127A86 904224AC 5DEB5667 0EF2A116 AB845B54 D5A4153F 267A91F3 3B9DFC2F F6C0E237 40A30466 9DDB16B9 485C0570 B33C8C0F CBD46C4C 7A868ACC B26809B7 37B2EFBA 24DE1068 EC57E069 39A529F5 872E289C 224E1AFE 445389AE 4A259C5E 9B70CCFA B0D25D0C 5D28572F E40C8AF2 F2757917 96F7C30B D6AFECB9 A0A3F29A 196027D0 909D3134 C2FEFA8D 9FC13E9C 883607CE 60416C1F 878DF21B CBF68E58 4A570E9D B4732F8A 48801C56",
+			"31320000 00000000 00000000 12D1F0B6 721E2499 35AF7628 E265F527 DFC41467 E20B2EB9 8DEE1EA0 52D8DDD7 DEF91C8A 414F2CE0 518FE0D6 28E0F2CA 21F12C5A 022748DE 03D87FEE 599FEB2A FA5DCDF5 7C5758FA E314803C 4AB48AC3 C7D8E584 6C2FC634 9D552253 051B3A30 91C5C5CA 81442632 BE064022 15CD579D 11FADD5D 23F126A0 8B8B1443 44E7B156 A024CE32 47DA2A62 690D84BD D51E05F8 6B399848 9E5936E0 032749A0 D14FBD64 AB60514D B071D863 BA9D954D C37CE17C 7DEA213C 552C1B0D F9EAE816 5F7697C6 F0273599 AC631CBD 44F4CEE7 56CBB213 7224C53E C2605459 0AD13872 4126B174 01FD185B 5B4D9045 BC4FBFE8 CB5C4B14 B8E45D80 D7DA25B3 DD3DF7BD 6785620D BAAF378B D5082F17 652BBBE2 4593C0C5 73E3A0DA C3C25441 E96E0BC8 04B23130 4342EB47 A740AC16 6D07C4C3 C0604FF3 8F72E38F 850BFAD9 1DB84986 58369B6D 9BEF5C79 FEF2CE59 6605F17B FB69A906 82E0F251 8DDB5132 311FB4D3 F675642B 43A03F93 584EB5CB 12F591DF E778FF1C F510A45F B7032186 5159494F AF76BD07 8EDCF3AD CBAE75DE D7F0F001 AF967CD4 B872B4FE AB39ABA2 57F31A04 E4915BAB EDC82E7C 90E1C4F6 CBC3C6B5 60028A58 FF484A26 C7E272E2 F2359D93 95D350C2 437A0664 3933A7D7 8176A8CD 0490A7C7 FA7DBB25 49CC39A5 8BEFD40F 429F423C EF98EB99 34AA7E2E B9A6B958 58F088B4 3C20E246",
+			"\"\"",
+			".rpost.biz",
+			"log"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 30.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.GoSublime-main-output":
+	{
+		"height": 94.0
+	},
+	"output.MarGo-output":
+	{
+		"height": 100.0
+	},
+	"output.exec":
+	{
+		"height": 54.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 94.0
+	},
+	"pinned_build_system": "Packages/Compass/Compass.sublime-build",
+	"project": "rtrack.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 191.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
