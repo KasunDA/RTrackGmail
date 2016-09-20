@@ -28,6 +28,7 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
 
         RPost.detectComposerMutationObserver();
         RPost.detectGmailComposer(RPost.initComposer);
+        //RPost.registerGmailSendButtonListeners();
         // RPost.resizeListener();
 
         // RPost.keyPressesForTest();
@@ -60,6 +61,7 @@ var RPost = (function() {
   // ----------------------------------------------------------
 
   var RPOST_SELECTORS = {
+    COMPOSE_RTRACK_BTN : '.rtrack-btn',
     COMPOSE_RTRACK_CHECKBOX : '.rtrack-checkbox',
     COMPOSE_SEND_REGISTERED_BTN : '.send-registered-btn',
     ATTR_RPOST_ENABLED : 'data-rpost-enabled'
@@ -73,6 +75,7 @@ var RPost = (function() {
     COMPOSE_RECIPIENT_EMAIL : 'email',
     COMPOSE_RECIPIENT_INPUT : 'input[type="hidden"]',
     COMPOSE_SUBJECT : 'input[name="subjectbox"]',
+    COMPOSE_TO : 'input[name="to"]',
     COMPOSE_CC : 'input[name="cc"]',
     COMPOSE_BCC : 'input[name="bcc"]',
     COMPOSE_BODY : '.Am.Al.editable.LW-avf',
@@ -98,7 +101,9 @@ var RPost = (function() {
     FULL_SCREEN_BG_DIMMER : 'div.aSs',
     FULL_SCREEN_SELECTOR_PARENT : 'div.aSt',
     TOP_INBOX_TABS : 'td.aRz.J-KU',
-    TOP_INBOX_ROW_MARGIN : 'td.aKl'
+    TOP_INBOX_ROW_MARGIN : 'td.aKl',
+
+    MAIL_SEND_BTN : 'n1tfz > .gU.Up > .J-J5-Ji > .J-J5-Ji'
   };
 
   /**
@@ -121,7 +126,12 @@ var RPost = (function() {
   }
   */
 
-  function insertHandlebarsTemplate(selector, template, data, elemToRemove, prepend, callback) {
+  function insertHandlebarsTemplate(selector, 
+                                    template, 
+                                    data, 
+                                    elemToRemove, 
+                                    prepend, 
+                                    callback) {
     Templates.getDeferred(template, data).done(function(html) {
       // TO prevent duplicates. Pass false for elemToRemove if this stage unneeded
       if (elemToRemove) {
@@ -146,12 +156,31 @@ var RPost = (function() {
     // Detect reply mode or not and insert toolbar
 
     // Insert send registered button
-    //insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'send-registered-btn', {}, '.send-registered-btn', registerSendRegisteredButtonListeners);
+    // insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 
+    //                           'send-registered-btn', 
+    //                           {}, 
+    //                           '.send-registered-btn', 
+    //                           true,
+    //                           registerSendRegisteredButtonListeners);
     
     // Insert RTrack checkbox 
     //insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo32Url}, '.rtrack-checkbox', registerRtrackCheckboxListeners);
 
-    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo28Url}, '.rtrack-checkbox', false, registerRtrackCheckboxListeners);
+
+    // insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 
+    //                           'rtrack-checkbox', 
+    //                           {iconUrl: logo28Url}, 
+    //                           '.rtrack-checkbox', 
+    //                           false, 
+    //                           registerRtrackCheckboxListeners);
+
+    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER,
+                              'rtrack-btn',
+                              {},
+                              '.rtrack-btn',
+                              true,
+                              registerRtrackButtonListeners);
+
     // insert settings and options UI but display: none; until needed.
 
     // if ( $(RPOST_SELECTORS.SETTINGS_BOX).length === 0 ) {
@@ -223,6 +252,56 @@ var RPost = (function() {
       //
     });
   }
+
+  function registerRtrackButtonListeners() {
+    $(RPOST_SELECTORS.COMPOSE_RTRACK_BTN).click(function (e) {
+            console.log('RTrack button clicked');
+            console.log('Subject:', $(GMAIL_SELECTORS.COMPOSE_SUBJECT).val());
+            console.log('To:', $(GMAIL_SELECTORS.COMPOSE_TO).val());
+            console.log('Cc:', $(GMAIL_SELECTORS.COMPOSE_CC).val());
+            console.log('Recipients:', $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).val());
+
+            var recipients = $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).val();
+            console.log(recipients);
+
+            $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).each(function() {
+      // TODO: next line is broken. Need to look at GMAIL_SELECTORS.COMPOSE_RECIPIENT_INPUT
+              var origEmail = $(this).attr(GMAIL_SELECTORS.COMPOSE_RECIPIENT_EMAIL);
+                // Here we change the hidden form input value that contains the full
+                // email address of form either "name@domain.com" or "First Last <name@domain.com>".
+                // We do not modify the displayed email address span DOM element, although
+                // we used that to get the email attribute which does not include
+                // proper names.
+                var origEmailInputEl = $(this).siblings(GMAIL_SELECTORS.COMPOSE_RECIPIENT_INPUT)
+                .first();
+                  var origEmailInput = origEmailInputEl.attr('value');
+                  var recipientInputRegexp = new RegExp(origEmail, 'g');
+                  console.log('Address:', origEmailInput);
+                //var rpEmailInput = origEmailInput.replace(recipientInputRegexp, rpEmail);
+                //origEmailInputEl.attr('value', rpEmailInput);
+                //console.log('Transformed email address "%s" => "%s"', 
+                  //origEmailInput, rpEmailInput);
+                  
+              });
+    });
+  }
+
+  function registerGmailSendButtonListeners() {
+    $(GMAIL_SELECTORS.MAIL_SEND_BTN).click(function (e) {
+      console.log('Gmail send button clicked');
+    });
+  }
+
+  /* Get open tracking URL
+   * Get message subject
+   * Get message recipients
+   * Get date
+   * Make rest call to MailTrack API
+   * Insert URL into message
+   */
+   function insertOpenTrackingUrl() {
+      //
+   };
 
   function setIntervalDetectGmailComposer(onDetectGmailComposer) {
     detectGmailComposerInterval = setInterval(function() {
@@ -326,7 +405,8 @@ var RPost = (function() {
     setIntervalDetectGmailComposer : setIntervalDetectGmailComposer,
     initComposer : initComposer,
     detectGmailComposer : detectGmailComposer,
-    detectComposerMutationObserver : detectComposerMutationObserver
+    detectComposerMutationObserver : detectComposerMutationObserver,
+    registerGmailSendButtonListeners : registerGmailSendButtonListeners
     // initTopUIAddon: initTopUIAddon,
     // setOAuth: setOAuth,
     // getOAuth: getOAuth

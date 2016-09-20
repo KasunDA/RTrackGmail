@@ -46,6 +46,7 @@
   "web_accessible_resources": [
     "templates/send-registered-btn.hbs",
     "templates/rtrack-checkbox.hbs",
+    "templates/rtrack-btn.hbs",
     "images/*.png"
   ],
   "page_action": {
