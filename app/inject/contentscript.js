@@ -53,6 +53,7 @@ var RPost = (function() {
 
   // Template data
   var logo32Url = chrome.extension.getURL('images/rmail-logo-32.png');
+  var logo28Url = chrome.extension.getURL('images/rmail-logo-28.png');
 
   // ----------------------------------------------------------
   // Constants
@@ -150,7 +151,7 @@ var RPost = (function() {
     // Insert RTrack checkbox 
     //insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo32Url}, '.rtrack-checkbox', registerRtrackCheckboxListeners);
 
-    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo32Url}, '.rtrack-checkbox', false, registerRtrackCheckboxListeners);
+    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo28Url}, '.rtrack-checkbox', false, registerRtrackCheckboxListeners);
     // insert settings and options UI but display: none; until needed.
 
     // if ( $(RPOST_SELECTORS.SETTINGS_BOX).length === 0 ) {
