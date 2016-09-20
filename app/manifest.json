@@ -10,8 +10,8 @@
   "default_locale": "en",
   "background": {
     "scripts": [
-      "scripts/chromereload.js",
-      "scripts/background.js"
+      "inject/chromereload.js",
+      "inject/background.js"
     ]
   },
   "permissions": [
@@ -28,15 +28,28 @@
   "content_scripts": [
     {
       "matches": [
-        "http://*/*",
-        "https://*/*"
+        "https://mail.google.com/*"
+      ],
+      "css": [
+        "inject/inject.css"
       ],
       "js": [
-        "scripts/contentscript.js"
+        "bower_components/jquery/dist/jquery.min.js",
+        "bower_components/handlebars/handlebars.min.js",
+        "inject/contentscript.js",
+        "inject/templates.js"
       ],
       "run_at": "document_end",
       "all_frames": false
     }
+  ],
+  "web_accessible_resources": [
+    "templates/send-registered-btn.hbs",
+    "images/rpost-btn.png",
+    "images/icon-gear.png",
+    "images/icon-calendar.png",
+    "images/rpost-tab-mail-icon.png",
+    "images/rpost-tab-mail-icon-on.png"
   ],
   "page_action": {
     "default_icon": {
