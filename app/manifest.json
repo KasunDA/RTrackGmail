@@ -45,11 +45,8 @@
   ],
   "web_accessible_resources": [
     "templates/send-registered-btn.hbs",
-    "images/rpost-btn.png",
-    "images/icon-gear.png",
-    "images/icon-calendar.png",
-    "images/rpost-tab-mail-icon.png",
-    "images/rpost-tab-mail-icon-on.png"
+    "templates/rtrack-checkbox.hbs",
+    "images/*.png"
   ],
   "page_action": {
     "default_icon": {

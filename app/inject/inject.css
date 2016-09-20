@@ -26,4 +26,46 @@
     background-color: #eb0000;
     background-image: -webkit-linear-gradient(top, #eb0000, #f00000); }
 
+.rtrack-checkbox-container {
+  position: relative;
+  display: inline-block;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  cursor: default;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+  height: 27px;
+  line-height: 27px;
+  min-width: 130px;
+  outline: 0;
+  vertical-align: middle;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #fff; }
+  .rtrack-checkbox-container img {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 5px; }
+  .rtrack-checkbox-container .rtrack-label {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 45px;
+    display: inline-block;
+    border-right: 1px solid black;
+    padding-right: 5px;
+    color: black;
+    vertical-align: middle;
+    font-size: 13px;
+    font-weight: bold; }
+  .rtrack-checkbox-container .rtrack-checkbox {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    right: 10px;
+    display: inline-block;
+    padding: 5px 5px 5px 10px; }
+
 /*# sourceMappingURL=inject.css.map */

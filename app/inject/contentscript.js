@@ -51,13 +51,15 @@ var RPost = (function() {
   var hasSeenToolTips = false;
   var optionsTabInitialized = false;
 
-  
+  // Template data
+  var logo32Url = chrome.extension.getURL('images/rmail-logo-32.png');
 
   // ----------------------------------------------------------
   // Constants
   // ----------------------------------------------------------
 
   var RPOST_SELECTORS = {
+    COMPOSE_RTRACK_CHECKBOX : '.rtrack-checkbox',
     COMPOSE_SEND_REGISTERED_BTN : '.send-registered-btn',
     ATTR_RPOST_ENABLED : 'data-rpost-enabled'
   };
@@ -102,8 +104,9 @@ var RPost = (function() {
    * Inserts a handlebars template into DOM
    *
    */
-  function insertHandlebarsTemplate(prependSelector, template, elemToRemove, callback) {
-    Templates.getDeferred(template, {}).done(function(html) {
+  /* 
+  function insertHandlebarsTemplate(prependSelector, template, data, elemToRemove, callback) {
+    Templates.getDeferred(template, data).done(function(html) {
       // TO prevent duplicates. Pass false for elemToRemove if this stage unneeded
       if (elemToRemove) {
         if ( $(prependSelector).find(elemToRemove).length > 0 ) {
@@ -115,14 +118,39 @@ var RPost = (function() {
       if (callback) callback();
     });
   }
+  */
+
+  function insertHandlebarsTemplate(selector, template, data, elemToRemove, prepend, callback) {
+    Templates.getDeferred(template, data).done(function(html) {
+      // TO prevent duplicates. Pass false for elemToRemove if this stage unneeded
+      if (elemToRemove) {
+        if ( $(selector).find(elemToRemove).length > 0 ) {
+          $(elemToRemove).remove();
+        }
+      }
+      if (prepend) {
+        $(html).prependTo(selector);
+      } else {
+        $(html).appendTo(selector);
+      }
+
+
+      if (callback) callback();
+    });
+  }
 
   function initComposeUI(newMessage) {
     //addRpostEnabledClass();
 
     // Detect reply mode or not and insert toolbar
 
-    //insert send registered button
-    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'send-registered-btn', '.send-registered-btn', registerSendRegisteredButtonListeners);
+    // Insert send registered button
+    //insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'send-registered-btn', {}, '.send-registered-btn', registerSendRegisteredButtonListeners);
+    
+    // Insert RTrack checkbox 
+    //insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo32Url}, '.rtrack-checkbox', registerRtrackCheckboxListeners);
+
+    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo32Url}, '.rtrack-checkbox', false, registerRtrackCheckboxListeners);
     // insert settings and options UI but display: none; until needed.
 
     // if ( $(RPOST_SELECTORS.SETTINGS_BOX).length === 0 ) {
@@ -177,15 +205,21 @@ var RPost = (function() {
   }
 
   function registerSendRegisteredButtonListeners() {
-    $(RPOST_SELECTORS.COMPOSE_SEND_REGISTERED_BTN).hover( function (e) {
+    $(RPOST_SELECTORS.COMPOSE_SEND_REGISTERED_BTN).hover(function (e) {
       $(this).addClass('hovered');
     }, function (e) {
       $(this).removeClass('hovered');
     });
 
-    $(RPOST_SELECTORS.COMPOSE_SEND_REGISTERED_BTN).click( function (e) {
+    $(RPOST_SELECTORS.COMPOSE_SEND_REGISTERED_BTN).click(function (e) {
       console.log('send registered clicked');
       //sendRegisteredMail();
+    });
+  }
+
+  function registerRtrackCheckboxListeners() {
+    $(RPOST_SELECTORS.COMPOSE_RTRACK_CHECKBOX).click(function (e) {
+      //
     });
   }
 

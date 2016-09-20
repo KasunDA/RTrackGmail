@@ -9,6 +9,7 @@ package
 
 # Mac
 .DS_Store
+app/.DS_Store
 
 
 # Created by https://www.gitignore.io/api/sublimetext
