@@ -10,7 +10,7 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
 
   		// ----------------------------------------------------------
   		// This part of the script triggers when page is done loading
-  		console.log('RMail for Gmail loaded.');
+  		console.log('RTrack for Gmail loaded.');
   		// ----------------------------------------------------------
 
         if ( response && response.isInit ) {
@@ -198,6 +198,7 @@ var RPost = (function() {
     //insertMoreOptsBar(newMessage); not shown initially, until user action
   }
 
+  // TO DO: Handle plaintext
   function detectPlainTextMode(newMessage) {
 
     var plainTextString = $(newMessage).find('.oG').text();
@@ -206,15 +207,11 @@ var RPost = (function() {
     // it isn't present in the DOM until you click the menu button. This method will work when a window is opened. 
     // TODO: have this method attach an event listener so we can detect when we leave plain text mode. 
     // This will need to be internationalised properly as well. 
-    
-    console.log("is this ... : " + $(newMessage).find('.oG').text());
-    console.log(plainTextString);
-
-    if ( plainTextString === "Plain text" ) {
-      console.log('looks like we found plain text!!!!');
+    if (plainTextString === "Plain text") {
+      console.log('Looks like we found plain text!');
       plainTextModeEnabled = true;
-      plainTextWarning();
-      disableRpost();
+      // plainTextWarning();
+      // disableRpost();
     }
   }
 
@@ -261,12 +258,16 @@ var RPost = (function() {
             console.log('Cc:', $(GMAIL_SELECTORS.COMPOSE_CC).val());
             console.log('Recipients:', $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).val());
 
-            var recipients = $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).val();
-            console.log(recipients);
+            var recipients = $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).map(function() {
+                 return $(this).text();
+              }).get();
+
+            console.log('recipients:', recipients);
+
+            var addresses = [];
 
             $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).each(function() {
-      // TODO: next line is broken. Need to look at GMAIL_SELECTORS.COMPOSE_RECIPIENT_INPUT
-              var origEmail = $(this).attr(GMAIL_SELECTORS.COMPOSE_RECIPIENT_EMAIL);
+                var origEmail = $(this).attr(GMAIL_SELECTORS.COMPOSE_RECIPIENT_EMAIL);
                 // Here we change the hidden form input value that contains the full
                 // email address of form either "name@domain.com" or "First Last <name@domain.com>".
                 // We do not modify the displayed email address span DOM element, although
@@ -277,12 +278,16 @@ var RPost = (function() {
                   var origEmailInput = origEmailInputEl.attr('value');
                   var recipientInputRegexp = new RegExp(origEmail, 'g');
                   console.log('Address:', origEmailInput);
+
+                  addresses.push(origEmailInput);
                 //var rpEmailInput = origEmailInput.replace(recipientInputRegexp, rpEmail);
                 //origEmailInputEl.attr('value', rpEmailInput);
                 //console.log('Transformed email address "%s" => "%s"', 
                   //origEmailInput, rpEmailInput);
                   
               });
+
+            console.log('addresses:', addresses);
     });
   }
 
