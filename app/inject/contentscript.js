@@ -151,22 +151,6 @@ var RPost = (function() {
     MAIL_SEND_BTN : 'n1tfz > .gU.Up > .J-J5-Ji > .J-J5-Ji'
   };
 
-  function send() {
-    
-    // transformSubjectWithParams();
-    // if ( plainTextModeEnabled ) {
-    //   plainTextWarning();
-    //   disableRpost();
-    // }
-
-    //transformRecipientEmailAddresses();
-
-    //injectHiddenOptsSpan(storageRpost.serializeFeatureParams());
-    // Send the actual email:
-
-    $(GMAIL_SELECTORS.SEND_MESSAGE_BTN).click();
-  }
-
   /**
    * Inserts a handlebars template into DOM
    *
@@ -235,14 +219,14 @@ var RPost = (function() {
     //                           false, 
     //                           registerRtrackCheckboxListeners);
 
-    /*
+    
     insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER,
                               'rtrack-btn',
                               {},
                               '.rtrack-btn',
                               true,
                               registerRtrackButtonListeners);
-    */
+    
 
     // insert settings and options UI but display: none; until needed.
 
@@ -319,9 +303,10 @@ var RPost = (function() {
             console.log('RTrack button clicked');
             console.log('Subject:', $(GMAIL_SELECTORS.COMPOSE_SUBJECT).val());
             console.log('To:', $(GMAIL_SELECTORS.COMPOSE_TO).val());
-            console.log('Cc:', $(GMAIL_SELECTORS.COMPOSE_CC).val());
+            //console.log('Cc:', $(GMAIL_SELECTORS.COMPOSE_CC).val());
             console.log('Recipients:', $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).val());
 
+            
             var recipients = $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).map(function() {
                  return $(this).text();
               }).get();
@@ -357,6 +342,22 @@ var RPost = (function() {
     });
   }
 
+  function send() {
+    
+    // transformSubjectWithParams();
+    // if ( plainTextModeEnabled ) {
+    //   plainTextWarning();
+    //   disableRpost();
+    // }
+
+    transformRecipientEmailAddresses();
+
+    //injectHiddenOptsSpan(storageRpost.serializeFeatureParams());
+    // Send the actual email:
+
+    $(GMAIL_SELECTORS.SEND_MESSAGE_BTN).click();
+  }
+
   function registerGmailSendButtonListeners() {
     $(GMAIL_SELECTORS.MAIL_SEND_BTN).click(function (e) {
       console.log('Gmail send button clicked');
@@ -373,6 +374,32 @@ var RPost = (function() {
    function insertOpenTrackingUrl() {
       //
    };
+
+  function transformRecipientEmailAddresses() {
+    $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).each(function() {
+      // TODO: next line is broken. Need to look at GMAIL_SELECTORS.COMPOSE_RECIPIENT_INPUT
+      var origEmail = $(this).attr(GMAIL_SELECTORS.COMPOSE_RECIPIENT_EMAIL);
+      // if (isRPostEmailAddress(origEmail)) {
+      //   // Already a valid RPost email address so leave it alone
+      //   console.log('Will not modify RPost email address %s', origEmail);
+      // } else {
+        // Here we change the hidden form input value that contains the full
+        // email address of form either "name@domain.com" or "First Last <name@domain.com>".
+        // We do not modify the displayed email address span DOM element, although
+        // we used that to get the email attribute which does not include
+        // proper names.
+        var rpEmail = origEmail + '.rpost.biz';
+        var origEmailInputEl = $(this).siblings(
+          GMAIL_SELECTORS.COMPOSE_RECIPIENT_INPUT).first();
+        var origEmailInput = origEmailInputEl.attr('value');
+        var recipientInputRegexp = new RegExp(origEmail, 'g');
+        var rpEmailInput = origEmailInput.replace(recipientInputRegexp, rpEmail);
+        origEmailInputEl.attr('value', rpEmailInput);
+        console.log('Transformed email address "%s" => "%s"', 
+          origEmailInput, rpEmailInput);
+      // }
+    });    
+  } 
 
   function setIntervalDetectGmailComposer(onDetectGmailComposer) {
     detectGmailComposerInterval = setInterval(function() {
