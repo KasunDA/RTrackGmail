@@ -36,6 +36,7 @@
       "js": [
         "bower_components/jquery/dist/jquery.min.js",
         "bower_components/handlebars/handlebars.min.js",
+        //"inject/gmail.js",
         "inject/contentscript.js",
         "inject/templates.js"
       ],
@@ -44,6 +45,9 @@
     }
   ],
   "web_accessible_resources": [
+    "inject/gmail.js",
+    "inject/main.js",
+    "bower_components/jquery/dist/jquery.min.js",
     "templates/send-registered-btn.hbs",
     "templates/rtrack-checkbox.hbs",
     "templates/rtrack-btn.hbs",

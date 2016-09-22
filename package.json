@@ -43,5 +43,8 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "gmail-js": "0.5.2"
   }
 }

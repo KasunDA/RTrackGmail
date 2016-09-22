@@ -1,6 +1,18 @@
 'use strict';
 
-console.log('RTrack for Gmail Loading...');
+var j = document.createElement('script');
+j.src = chrome.extension.getURL('/bower_components/jquery/dist/jquery.min.js');
+(document.head || document.documentElement).appendChild(j);
+
+var g = document.createElement('script');
+g.src = chrome.extension.getURL('/inject/gmail.js');
+(document.head || document.documentElement).appendChild(g);
+
+var s = document.createElement('script');
+s.src = chrome.extension.getURL('/inject/main.js');
+(document.head || document.documentElement).appendChild(s);
+
+console.log('RTrack for Gmail loading...');
 chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
   var readyStateCheckInterval = setInterval(function() {
 	
@@ -16,9 +28,8 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
         if ( response && response.isInit ) {
           console.log(response);
           
-
-          // OAuthFunctions.confirmValidToken();
-          // OAuthFunctions.updateLabelNames();
+          //OAuthFunctions.confirmValidToken();
+          //OAuthFunctions.updateLabelNames();
           //OAuthFunctions.initTooltipSequence();
 
         }
@@ -29,11 +40,45 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
         RPost.detectComposerMutationObserver();
         RPost.detectGmailComposer(RPost.initComposer);
         //RPost.registerGmailSendButtonListeners();
-        // RPost.resizeListener();
-
-        // RPost.keyPressesForTest();
-
+        //RPost.resizeListener();
+        //RPost.keyPressesForTest();
         //RPost.insertTooltip();
+
+        /*
+        var gmail = Gmail();
+        console.log(gmail);
+
+        gmail.observe.on('view_thread', function(obj) {
+          console.log('view_thread', obj);
+        });
+
+        // now we have access to the sub observers view_email and load_email_menu
+        gmail.observe.on('view_email', function(obj) {
+          console.log('view_email', obj);
+        });
+
+        gmail.observe.on('star', function(obj) {
+          console.log('star:', obj);
+        });
+
+        gmail.observe.on('unstar', function(obj) {
+          console.log('unstar:', obj);
+        });
+
+        gmail.observe.on('recipient_change', function(match, recipients) {
+          console.log('recipients changed', match, recipients);
+        });
+
+        gmail.observe.on("compose", function(compose, type) {
+
+          // type can be compose, reply or forward
+          console.log('api.dom.compose object:', compose, 'type is:', type );  // gmail.dom.compose object
+        });
+
+        var email = gmail.get.user_email();
+        console.log(email);
+        */
+
     	}
   	}, 50);
 });
@@ -106,6 +151,22 @@ var RPost = (function() {
     MAIL_SEND_BTN : 'n1tfz > .gU.Up > .J-J5-Ji > .J-J5-Ji'
   };
 
+  function send() {
+    
+    // transformSubjectWithParams();
+    // if ( plainTextModeEnabled ) {
+    //   plainTextWarning();
+    //   disableRpost();
+    // }
+
+    //transformRecipientEmailAddresses();
+
+    //injectHiddenOptsSpan(storageRpost.serializeFeatureParams());
+    // Send the actual email:
+
+    $(GMAIL_SELECTORS.SEND_MESSAGE_BTN).click();
+  }
+
   /**
    * Inserts a handlebars template into DOM
    *
@@ -174,12 +235,14 @@ var RPost = (function() {
     //                           false, 
     //                           registerRtrackCheckboxListeners);
 
+    /*
     insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER,
                               'rtrack-btn',
                               {},
                               '.rtrack-btn',
                               true,
                               registerRtrackButtonListeners);
+    */
 
     // insert settings and options UI but display: none; until needed.
 
@@ -241,6 +304,7 @@ var RPost = (function() {
     $(RPOST_SELECTORS.COMPOSE_SEND_REGISTERED_BTN).click(function (e) {
       console.log('send registered clicked');
       //sendRegisteredMail();
+      send();
     });
   }
 
@@ -288,6 +352,8 @@ var RPost = (function() {
               });
 
             console.log('addresses:', addresses);
+
+            send();
     });
   }
 
