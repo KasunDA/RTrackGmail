@@ -25,79 +25,69 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
   		console.log('RTrack for Gmail loaded.');
   		// ----------------------------------------------------------
 
-        if ( response && response.isInit ) {
-          console.log(response);
-          
-          //OAuthFunctions.confirmValidToken();
-          //OAuthFunctions.updateLabelNames();
-          //OAuthFunctions.initTooltipSequence();
+      // Initialize boostrap-switch
+      $("[name='cb-checkbox']").bootstrapSwitch();
+      $("[name='cb-default']").bootstrapSwitch();
+      $("[name='cb-notifications']").bootstrapSwitch();
+      $.fn.bootstrapSwitch.defaults.size = 'mini';
 
-        }
-        // add the dom elements for top tab and opts bar
-        // Top level Rpost Receipts tab is V2 so not executing
-        // RPost.initTopUIAddon();
+      if ( response && response.isInit ) {
+        console.log(response);
+        
+        //OAuthFunctions.confirmValidToken();
+        //OAuthFunctions.updateLabelNames();
+        //OAuthFunctions.initTooltipSequence();
 
-        RPost.detectComposerMutationObserver();
-        RPost.detectGmailComposer(RPost.initComposer);
-        //RPost.registerGmailSendButtonListeners();
-        //RPost.resizeListener();
-        //RPost.keyPressesForTest();
-        //RPost.insertTooltip();
+      }
+      // add the dom elements for top tab and opts bar
+      // Top level Rpost Receipts tab is V2 so not executing
+      // rtrack.initTopUIAddon();
 
-        /*
-        var gmail = Gmail();
-        console.log(gmail);
+      rtrack.detectComposerMutationObserver();
+      rtrack.detectGmailComposer(rmail.initComposer);
+      //rtrack.registerGmailSendButtonListeners();
+      //rtrack.resizeListener();
+      //rtrack.keyPressesForTest();
+      //rtrack.insertTooltip();
 
-        gmail.observe.on('view_thread', function(obj) {
-          console.log('view_thread', obj);
-        });
+      /*
+      var gmail = Gmail();
+      console.log(gmail);
 
-        // now we have access to the sub observers view_email and load_email_menu
-        gmail.observe.on('view_email', function(obj) {
-          console.log('view_email', obj);
-        });
+      gmail.observe.on("compose", function(compose, type) {
 
-        gmail.observe.on('star', function(obj) {
-          console.log('star:', obj);
-        });
+        // type can be compose, reply or forward
+        console.log('api.dom.compose object:', compose, 'type is:', type );  // gmail.dom.compose object
+      });
 
-        gmail.observe.on('unstar', function(obj) {
-          console.log('unstar:', obj);
-        });
+      var email = gmail.get.user_email();
+      console.log(email);
+      */
 
-        gmail.observe.on('recipient_change', function(match, recipients) {
-          console.log('recipients changed', match, recipients);
-        });
-
-        gmail.observe.on("compose", function(compose, type) {
-
-          // type can be compose, reply or forward
-          console.log('api.dom.compose object:', compose, 'type is:', type );  // gmail.dom.compose object
-        });
-
-        var email = gmail.get.user_email();
-        console.log(email);
-        */
-
-    	}
-  	}, 50);
+    }
+  }, 50);
 });
 
-var RPost = (function() {
+var api = (function() {
+
+  var url = '';
+
+})();
+
+var rtrack = (function() {
 
   var self = this;
 
   var rmailEnabled = true;
   var plainTextModeEnabled = false;
-
   var oneClickSendEnabled = false;
   var encryptWithEsign = false;
   var readyToSend = false;
-
   var hasSeenToolTips = false;
   var optionsTabInitialized = false;
 
   // Template data
+  var logoUrl = chrome.extension.getURL('images/rmail_logo.svg');
   var logo32Url = chrome.extension.getURL('images/rmail-logo-32.png');
   var logo28Url = chrome.extension.getURL('images/rmail-logo-28.png');
 
@@ -147,14 +137,9 @@ var RPost = (function() {
     FULL_SCREEN_SELECTOR_PARENT : 'div.aSt',
     TOP_INBOX_TABS : 'td.aRz.J-KU',
     TOP_INBOX_ROW_MARGIN : 'td.aKl',
-
     MAIL_SEND_BTN : 'n1tfz > .gU.Up > .J-J5-Ji > .J-J5-Ji'
   };
 
-  /**
-   * Inserts a handlebars template into DOM
-   *
-   */
   /* 
   function insertHandlebarsTemplate(prependSelector, template, data, elemToRemove, callback) {
     Templates.getDeferred(template, data).done(function(html) {
@@ -171,6 +156,14 @@ var RPost = (function() {
   }
   */
 
+  /**
+   * Inserts a handlebars template into DOM
+   * @param {string} selector 
+   * @param {string} template
+   * @param {string} data
+   * @param {string} elemToRemove
+   * @param {function(string)} callback
+   */ 
   function insertHandlebarsTemplate(selector, 
                                     template, 
                                     data, 
@@ -178,7 +171,7 @@ var RPost = (function() {
                                     prepend, 
                                     callback) {
     Templates.getDeferred(template, data).done(function(html) {
-      // TO prevent duplicates. Pass false for elemToRemove if this stage unneeded
+      // To prevent duplicates. Pass false for elemToRemove if not needed.
       if (elemToRemove) {
         if ( $(selector).find(elemToRemove).length > 0 ) {
           $(elemToRemove).remove();
@@ -195,6 +188,18 @@ var RPost = (function() {
     });
   }
 
+  // Initializes Settings box as display: none; enhances performace and 
+  // allows for better keeping track of selected options.
+  function initSettingsUI() {
+
+    insertHandlebarsTemplate(GMAIL_SELECTORS.BASE_SCREEN, 
+                            'settings-popout', 
+                            {}, 
+                            '.settings-panel',
+                            false,
+                            registerSettingsBoxListeners);
+  } 
+
   function initComposeUI(newMessage) {
     //addRpostEnabledClass();
 
@@ -209,25 +214,21 @@ var RPost = (function() {
     //                           registerSendRegisteredButtonListeners);
     
     // Insert RTrack checkbox 
-    //insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 'rtrack-checkbox', {iconUrl: logo32Url}, '.rtrack-checkbox', registerRtrackCheckboxListeners);
+    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 
+                              'rtrack-checkbox', 
+                              {iconUrl: logoUrl}, 
+                              '.rtrack-checkbox', 
+                              false,
+                              registerRtrackCheckboxListeners);
 
-
-    // insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 
-    //                           'rtrack-checkbox', 
-    //                           {iconUrl: logo28Url}, 
-    //                           '.rtrack-checkbox', 
-    //                           false, 
-    //                           registerRtrackCheckboxListeners);
-
+    // Insert RTrack button
+    // insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER,
+    //                           'rtrack-btn',
+    //                           {},
+    //                           '.rtrack-btn',
+    //                           true,
+    //                           registerRtrackButtonListeners);
     
-    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER,
-                              'rtrack-btn',
-                              {},
-                              '.rtrack-btn',
-                              true,
-                              registerRtrackButtonListeners);
-    
-
     // insert settings and options UI but display: none; until needed.
 
     // if ( $(RPOST_SELECTORS.SETTINGS_BOX).length === 0 ) {
@@ -340,6 +341,10 @@ var RPost = (function() {
 
             send();
     });
+  }
+
+  function registerSettingsBoxListeners() {
+
   }
 
   function send() {

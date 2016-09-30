@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "dependencies": {
     "jquery": "^3.1.0",
-    "handlebars": "^4.0.5"
+    "handlebars": "^4.0.5",
+    "bootstrap-sass": "^3.3.7",
+    "bootstrap-switch": "https://github.com/nostalgiaz/bootstrap-switch",
+    "lato": "^0.3.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",

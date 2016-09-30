@@ -11,7 +11,7 @@
 	white-space: nowrap;
 	height: 27px;
 	line-height: 27px;
-	min-width: 130px;
+	min-width: 72px;
 	outline: 0;
 	vertical-align: middle;
 	//margin: 6px 2px; 
@@ -42,9 +42,21 @@
 
 	.rtrack-checkbox {
 		@include center-vertical;
-		right: 10px;
+		left: 32px;
 		display: inline-block;
-		padding: 5px 5px 5px 10px;
+		//border-right: 1px solid black;
+		padding: 5px 10px 5px 10px;
+	}
+
+	.divider {
+		@include center-vertical;
+		left: 70px;
+    //background-color: #f5f5f5;
+    border-right: 1px solid #cfcfcf;
+    height: 20px;
+    padding: 0;
+    vertical-align: middle;
+    width: 2px;
 	}
 }
 

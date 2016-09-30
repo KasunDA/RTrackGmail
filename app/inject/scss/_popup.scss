@@ -1,0 +1,38 @@
+// Colors
+$bg-nav: #F9F479;
+$bg-main: #f1f2f3;
+$logo: #000000;
+
+#popup-nav {
+	position: relative;
+	background-color: $navbar-bg-gray;
+	color: $navbar-light-gray;
+	width: 300px;
+	height: 40px;
+	padding: 0px 10px 0px 10px;
+
+	.logo {
+		@include center-vertical;
+	}
+
+	.brand {
+		@include center-vertical;
+		left: 50px;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 1.5em;
+		color: $navbar-light-gray;
+	}
+}
+
+#popup-main {
+	background-color: $bg-main;
+	height: 200px;
+	width: 300px;
+	padding: 0px 10px 10px 10px;
+
+	button > a {
+		color: white;
+		text-decoration: none
+	}
+}
+
