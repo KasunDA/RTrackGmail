@@ -33,7 +33,6 @@ var main = function(){
  		
   	});
 
-
   /*
 	gmail.observe.before("send_message", function(url, body, data, xhr) {
 		//console.log('before send_message url:', url);
@@ -59,26 +58,32 @@ var main = function(){
 		var postData = {
 		  "from": email,
 		  "to": data.to,
-		  "cc": data.cc,
-		  "bcc": data.bcc,
+		  //"cc": data.cc,
+		  //"bcc": data.bcc,
 		  "date": new Date(),
 		  "subject": data.subject,
 		  "mailUrl": "",
 		  "mailClient": "Gmail",
 		  "tracking": true,
 		  "senderId": senderId
-		}
+		};
 
-		rm.postMessage(apiUrl, postData, 
-			function(result) {
-				var callout = apiUrl + '/open/' + result.trackId
-				data.body += callout;
-		},
-			function(err) {
-				console.log('Error posting message');
+		rm.postMessage(apiUrl, postData, function(err, result) {
+			var trackId = null;
+			if (err) {
+				return console.log(err);
+			}
+			try {
+				trackId = result.responseJSON.trackId
+			} catch (err) {
+				console.log(err);
+			}
+			var source = apiUrl + '/open/' + trackId;
+			var callout = '<span><img src="' + source + '" alt="" height="0" width="0"></span>';
+			data.body += callout;
+			console.log('Open tracking link added:', callout);
 		});
 
-		console.log('draft id:', data.draft);
 	});
 
 	// gmail.observe.on("http_event", function(params) {
@@ -94,12 +99,13 @@ refresh(main);
  */
 var rm = (function() {
 
-  //var url = 'http://localhost:3000';
-
   /**
    * GET /Sender
    * Get sender details from Mailtrack API
    * Query submitted with filter
+   * @param {string} url - base URL
+   * @param {string} email - sender email
+   * @param {function(error, result)} callback
    */
   function getSender(url, email, callback) {
 
@@ -121,7 +127,7 @@ var rm = (function() {
   	})
   	.done()
   	.fail(function() {
-  		callback(err, jqxhr);
+  		callback(new Error(), jqxhr);
   	})
   	.always(function() {
   		console.log('GET /Sender - finished')
@@ -134,16 +140,32 @@ var rm = (function() {
    * Post a new messages to the Mailtrack API
    * Object containing the trackId will be returned on success.
    * @param {string} url - The API URL
-   * @param {function()} success - success callback
-   * @param {function()} failure - falure callback
+   * @param {object} data - data object
+   * @param {function(error, result)} callback
    */
-  function postMessage(url, data, success, error) {
+  function postMessage(url, data, callback) {
+
+  	// 	try {
+		// 	data = JSON.stringify(data);
+		// 	console.log
+		// } catch (err) {
+		// 	console.log(err);
+		// 	callback(err);
+		// }
+		console.log(data);
+
   	var path = url + '/api/Messages';
     var jqxhr = $.post(path, data, function() {
       console.log('POST /Messages');
+      //callback(null, jqxhr);
     })
-    .done(success)
-    .fail(faliure)
+    .done(function() {
+    	console.log('Response:', jqxhr);
+    	callback(null, jqxhr);
+    })
+    .fail(function() {
+    	callback(new Error(), jqxhr);
+    })
     .always(function() {
       console.log('POST /Messages - finished');
     });
