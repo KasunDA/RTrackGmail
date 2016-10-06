@@ -68,7 +68,7 @@ var main = function(){
 		  "senderId": senderId
 		};
 
-		rm.postMessage(apiUrl, postData, function(err, result) {
+		rm.postMessageSync(apiUrl, postData, function(err, result) {
 			var trackId = null;
 			if (err) {
 				return console.log(err);
@@ -81,7 +81,9 @@ var main = function(){
 			var source = apiUrl + '/open/' + trackId;
 			var callout = '<span><img src="' + source + '" alt="" height="0" width="0"></span>';
 			data.body += callout;
+			data.body += '<span>async test</span>';
 			console.log('Open tracking link added:', callout);
+			console.log('data:', data);
 		});
 
 	});
@@ -145,13 +147,6 @@ var rm = (function() {
    */
   function postMessage(url, data, callback) {
 
-  	// 	try {
-		// 	data = JSON.stringify(data);
-		// 	console.log
-		// } catch (err) {
-		// 	console.log(err);
-		// 	callback(err);
-		// }
 		console.log(data);
 
   	var path = url + '/api/Messages';
@@ -171,9 +166,32 @@ var rm = (function() {
     });
   }
 
+  function postMessageSync(url, data, callback) {
+
+  	console.log(data);
+
+  	var path = url + '/api/Messages';
+  	var success = function(data, status, jqxhr) {
+  		console.log('Data:', data);
+  		console.log('Status:', status);
+  		console.log('Response:', jqxhr);
+    	callback(null, jqxhr);
+  	};
+
+  	$.ajax({
+		  type: 'POST',
+		  url: path,
+		  data: data,
+		  success: success,
+		  dataType: 'json',
+		  async:false
+		});
+  }
+
   return {
   	getSender: getSender,
-  	postMessage: postMessage
+  	postMessage: postMessage,
+  	postMessageSync: postMessageSync
   }
 
 })();
