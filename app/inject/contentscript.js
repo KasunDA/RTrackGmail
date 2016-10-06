@@ -44,7 +44,7 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
       // rtrack.initTopUIAddon();
 
       rtrack.detectComposerMutationObserver();
-      rtrack.detectGmailComposer(rmail.initComposer);
+      rtrack.detectGmailComposer(rtrack.initComposer);
       //rtrack.registerGmailSendButtonListeners();
       //rtrack.resizeListener();
       //rtrack.keyPressesForTest();
@@ -70,7 +70,30 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
 
 var api = (function() {
 
-  var url = '';
+  var url = 'http://localhost:3000';
+
+  /**
+   * POST /Messages
+   * Post a new messages to the Mailtrack API
+   * Object containing the trackId will be returned on success.
+   * @param {string} url - The API URL
+   */
+  function postMessage(url) {
+    var jqxhr = $.post(url, function() {
+      console.log('POST /Messages');
+    })
+    .done(function() {
+      console.log('POST /Messages succeeded');
+      // Insert tracking ID callout into message
+    })
+    .fail(function() {
+      console.log();
+      // Popup to inform user of failure.
+    })
+    .always(function() {
+      console.log('POST /Messages - finished');
+    });
+  }
 
 })();
 
