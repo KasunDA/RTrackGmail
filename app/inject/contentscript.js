@@ -1,5 +1,8 @@
 'use strict';
 
+// ---------------------------------------------
+// Inject these scripts directly into Gmail page
+// ---------------------------------------------
 var j = document.createElement('script');
 j.src = chrome.extension.getURL('/bower_components/jquery/dist/jquery.min.js');
 (document.head || document.documentElement).appendChild(j);
@@ -13,17 +16,19 @@ s.src = chrome.extension.getURL('/inject/main.js');
 (document.head || document.documentElement).appendChild(s);
 
 console.log('RTrack for Gmail loading...');
+
 chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
+
+  // -------------------------------------------------
+  // Initialize RTrack components when pages is loaded
+  // -------------------------------------------------
   var readyStateCheckInterval = setInterval(function() {
 	
     if ( document.readyState === 'complete' ) {
 
   		clearInterval(readyStateCheckInterval);
 
-  		// ----------------------------------------------------------
   		// This part of the script triggers when page is done loading
-  		console.log('RTrack for Gmail loaded.');
-  		// ----------------------------------------------------------
 
       // Initialize boostrap-switch
       $("[name='cb-checkbox']").bootstrapSwitch();
@@ -31,17 +36,15 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
       $("[name='cb-notifications']").bootstrapSwitch();
       $.fn.bootstrapSwitch.defaults.size = 'mini';
 
+
       if ( response && response.isInit ) {
-        console.log(response);
+        
+        console.log('Inialiization reponse:', response);
         
         //OAuthFunctions.confirmValidToken();
         //OAuthFunctions.updateLabelNames();
         //OAuthFunctions.initTooltipSequence();
-
       }
-      // add the dom elements for top tab and opts bar
-      // Top level Rpost Receipts tab is V2 so not executing
-      // rtrack.initTopUIAddon();
 
       rtrack.detectComposerMutationObserver();
       rtrack.detectGmailComposer(rtrack.initComposer);
@@ -50,53 +53,13 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
       //rtrack.keyPressesForTest();
       //rtrack.insertTooltip();
 
-      /*
-      var gmail = Gmail();
-      console.log(gmail);
-
-      gmail.observe.on("compose", function(compose, type) {
-
-        // type can be compose, reply or forward
-        console.log('api.dom.compose object:', compose, 'type is:', type );  // gmail.dom.compose object
-      });
-
-      var email = gmail.get.user_email();
-      console.log(email);
-      */
-
     }
   }, 50);
 });
 
-var api = (function() {
-
-  var url = 'http://localhost:3000';
-
-  /**
-   * POST /Messages
-   * Post a new messages to the Mailtrack API
-   * Object containing the trackId will be returned on success.
-   * @param {string} url - The API URL
-   */
-  function postMessage(url) {
-    var jqxhr = $.post(url, function() {
-      console.log('POST /Messages');
-    })
-    .done(function() {
-      console.log('POST /Messages succeeded');
-      // Insert tracking ID callout into message
-    })
-    .fail(function() {
-      console.log();
-      // Popup to inform user of failure.
-    })
-    .always(function() {
-      console.log('POST /Messages - finished');
-    });
-  }
-
-})();
-
+// ---------------------------------
+// Module with core RTrack functions
+// ---------------------------------
 var rtrack = (function() {
 
   var self = this;

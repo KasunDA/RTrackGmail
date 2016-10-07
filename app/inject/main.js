@@ -8,58 +8,51 @@ function refresh(f) {
   }
 }
 
-var main = function(){
-  	// NOTE: Always use the latest version of gmail.js from
-  	// https://github.com/KartikTalwar/gmail.js
-  	var gmail = new Gmail();
-  	var apiUrl = 'https://rtrack.rmail.com';
-  	var email = gmail.get.user_email();
-  	var senderId = null;
+var main = function() {
 
-  	console.log('Sender:', email);
+	// Core library: gmail.js
+	// https://github.com/KartikTalwar/gmail.js
+	var gmail = new Gmail();
 
-  	// Get user ID
-  	rm.getSender(apiUrl, email, function(err, result) {
-  		if (err) {
-  			return console.log(err);
-  		}
-  		console.log(result);
-  		try {
-  			senderId = result.responseJSON[0].id;
-  			console.log('Sender ID:', senderId);
-  		} catch (err) {
-  			console.log(err);
-  		}
- 		
-  	});
+	var apiUrl = 'https://rtrack.rmail.com';
+	var email = gmail.get.user_email();
+	var senderId = null;
 
-  /*
-	gmail.observe.before("send_message", function(url, body, data, xhr) {
-		//console.log('before send_message url:', url);
-		//console.log('before send_message body:', body);
-		console.log('before send_message data:', data);
-		console.log('before send_message, xhr:', xhr);
+	console.log('Sender email:', email);
 
-		console.log('To:', data.to[0]);
+	// Get user ID
+	RTRACK_API.getSender(apiUrl, email, function(err, result) {
+		if (err) {
+			return console.log('Error getting sender ID:', err);
+		}
 
-		data.body += '<span>test string</span>';
-		//data.to[0] = data.to[0].replace('>', '.rpost.biz>');
-		//data.draft = undefined;
+		//console.log(result);
+		try {
+			senderId = result.responseJSON[0].id;
+		} catch (err) {
+			console.log(err);
+		}
 
-		console.log('draft id:', data.draft);
+		console.log('Sender ID:', senderId);
+		
 	});
-	*/
 
 	gmail.observe.before("send_message", function(url, body, data, xhr) {
 		console.log('before send_message data:', data);
 
-		data.body += '<span>test string</span>';
+		if ($("input[name='rtrack']").is(":not(:checked)")) {
+			console.log('Send RTrack: off');
+			return null;
+		}
+
+		var recipients = RTRACK.getRecipients(data);
+		//var recipients = data;
 
 		var postData = {
 		  "from": email,
-		  "to": data.to,
-		  //"cc": data.cc,
-		  //"bcc": data.bcc,
+		  "to": recipients.to,
+		  "cc": recipients.cc,
+		  "bcc": recipients.bbc,
 		  "date": new Date(),
 		  "subject": data.subject,
 		  "mailUrl": "",
@@ -68,22 +61,31 @@ var main = function(){
 		  "senderId": senderId
 		};
 
-		rm.postMessageSync(apiUrl, postData, function(err, result) {
+		// POST message details to API and use tracking ID from return object
+		// to create tracking callout in outbound message body.
+		RTRACK_API.postMessageSync(apiUrl, postData, function(err, result) {
 			var trackId = null;
+
 			if (err) {
-				return console.log(err);
+				console.log(err);
+				return err;
 			}
+
 			try {
 				trackId = result.responseJSON.trackId
 			} catch (err) {
 				console.log(err);
+				return err;
 			}
+
 			var source = apiUrl + '/open/' + trackId;
-			var callout = '<span><img src="' + source + '" alt="" height="0" width="0"></span>';
+			var callout = '\n<span><img src="' + source + '" alt="" height="0" width="0"></span>';
 			data.body += callout;
-			data.body += '<span>async test</span>';
+
 			console.log('Open tracking link added:', callout);
-			console.log('data:', data);
+
+			return null;
+
 		});
 
 	});
@@ -96,15 +98,16 @@ var main = function(){
 refresh(main);
 
 /**
- * rm - Module contains functions to handle RTrack message processing.
- * @return {Object} - Public rm module methods.
+ * RTRACK_API - Module contains functions to handle RTrack message processing.
+ * @return {Object} - Public RTRACK_API module methods.
  */
-var rm = (function() {
+var RTRACK_API = (function() {
 
   /**
    * GET /Sender
    * Get sender details from Mailtrack API
    * Query submitted with filter
+   *
    * @param {string} url - base URL
    * @param {string} email - sender email
    * @param {function(error, result)} callback
@@ -124,7 +127,7 @@ var rm = (function() {
   	console.log(path);
 
   	var jqxhr = $.get(path, function() {
-  		console.log('GET /Sender');
+  		console.log('GET api/Sender');
   		callback(null, jqxhr);
   	})
   	.done()
@@ -132,15 +135,15 @@ var rm = (function() {
   		callback(new Error(), jqxhr);
   	})
   	.always(function() {
-  		console.log('GET /Sender - finished')
+  		console.log('GET api/Sender - finished')
   	})
   } 
-
 
   /**
    * POST /Messages
    * Post a new messages to the Mailtrack API
    * Object containing the trackId will be returned on success.
+   *
    * @param {string} url - The API URL
    * @param {object} data - data object
    * @param {function(error, result)} callback
@@ -166,10 +169,19 @@ var rm = (function() {
     });
   }
 
+   /**
+   * POST /Messages - Synchronous version
+   * Post a new messages to the Mailtrack API
+   * Object containing the trackId will be returned on success.
+   * WARNING: Sychronous ajax call is depracated JQuery 1.8+
+   *
+   * @param {string} url - The API URL
+   * @param {object} data - data object
+   * @param {function(error, result)} callback
+   */
   function postMessageSync(url, data, callback) {
 
   	console.log(data);
-
   	var path = url + '/api/Messages';
   	var success = function(data, status, jqxhr) {
   		console.log('Data:', data);
@@ -193,5 +205,54 @@ var rm = (function() {
   	postMessage: postMessage,
   	postMessageSync: postMessageSync
   }
+
+})();
+
+/**
+ * RTRACK -  RTrack helper functions
+ */
+var RTRACK = (function() {
+
+	/**
+	 * getRecipients returns a recipients objects with the 
+	 * recipient data from the data object properties. The 
+	 * primary purpose is to elimenate the empty recepient 
+	 * array elements.
+	 *
+	 * @param {object} data - Gmail message data object
+	 * @return {object} recipients
+	 */
+  function getRecipients(data) {
+  	
+  	var recipients = {
+  		to: [],
+  		cc: [],
+  		bcc: []
+  	};
+
+  	for (var i=0; i < data.to.length; i++) {
+  		if (data.to[i].length > 0) {
+  			recipients.to.push(data.to[i]);
+  		}
+  	}
+
+  	for (var j=0; j < data.cc.length; j++) {
+  		if (data.cc[j].length > 0) {
+  			recipients.cc.push(data.cc[j]);
+  		}
+  	}
+
+  	for (var k=0; k < data.bcc.length; k++) {
+  		if (data.bcc[k].length > 0) {
+  			recipients.bcc.push(data.bcc[k]);
+  		}
+  	}
+
+  	return recipients;
+  }
+  
+	return {
+		getRecipients: getRecipients
+	};
 
 })();
