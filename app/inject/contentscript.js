@@ -30,28 +30,32 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
 
   		// This part of the script triggers when page is done loading
 
-      // Initialize boostrap-switch
-      $("[name='cb-checkbox']").bootstrapSwitch();
-      $("[name='cb-default']").bootstrapSwitch();
-      $("[name='cb-notifications']").bootstrapSwitch();
-      $.fn.bootstrapSwitch.defaults.size = 'mini';
+      // Initialize settings
+      RTRACK.initSettings(function(err, data) {
+        if (err) {
+          return console.log('Error Initializing settings');
+        }
 
+        RTRACK.settings.ui = data.ui;
+        RTRACK.settings.defaultState = data.defaultState;
+        RTRACK.settings.notifications = data.notifications;
 
-      if ( response && response.isInit ) {
-        
+        console.log('Initialized settings:', RTRACK.settings);
+      });
+
+      // Track settings
+      RTRACK.registerUpdateSettingsListener();
+
+      if ( response && response.isInit ) { 
         console.log('Inialiization reponse:', response);
-        
-        //OAuthFunctions.confirmValidToken();
-        //OAuthFunctions.updateLabelNames();
-        //OAuthFunctions.initTooltipSequence();
       }
 
-      rtrack.detectComposerMutationObserver();
-      rtrack.detectGmailComposer(rtrack.initComposer);
-      //rtrack.registerGmailSendButtonListeners();
-      //rtrack.resizeListener();
-      //rtrack.keyPressesForTest();
-      //rtrack.insertTooltip();
+      RTRACK.detectComposerMutationObserver();
+      RTRACK.detectGmailComposer(RTRACK.initComposer);
+      //RTRACK.registerGmailSendButtonListeners();
+      //RTRACK.resizeListener();
+      //RTRACK.keyPressesForTest();
+      //RTRACK.insertTooltip();
 
     }
   }, 50);
@@ -60,17 +64,15 @@ chrome.extension.sendMessage({ type: 'initialize' }, function(response) {
 // ---------------------------------
 // Module with core RTrack functions
 // ---------------------------------
-var rtrack = (function() {
+var RTRACK = (function() {
 
   var self = this;
 
-  var rmailEnabled = true;
-  var plainTextModeEnabled = false;
-  var oneClickSendEnabled = false;
-  var encryptWithEsign = false;
-  var readyToSend = false;
-  var hasSeenToolTips = false;
-  var optionsTabInitialized = false;
+  var settings = {
+    ui: true,
+    defaultState: false,
+    notifications: true
+  };
 
   // Template data
   var logoUrl = chrome.extension.getURL('images/rmail_logo.svg');
@@ -126,21 +128,139 @@ var rtrack = (function() {
     MAIL_SEND_BTN : 'n1tfz > .gU.Up > .J-J5-Ji > .J-J5-Ji'
   };
 
-  /* 
-  function insertHandlebarsTemplate(prependSelector, template, data, elemToRemove, callback) {
-    Templates.getDeferred(template, data).done(function(html) {
-      // TO prevent duplicates. Pass false for elemToRemove if this stage unneeded
-      if (elemToRemove) {
-        if ( $(prependSelector).find(elemToRemove).length > 0 ) {
-          $(elemToRemove).remove();
-        }
+  // Initialize settings
+  function initSettings(callback) {
+    initStorage(this.settings, function(err, data) {
+      if (err) {
+        return callback(err);
       }
-      $(html).prependTo(prependSelector);
 
-      if (callback) callback();
+      callback(null, data);
     });
   }
-  */
+
+  // Update settings and set switch state
+  function initStorage(settings, callback) {
+    var config = {
+      ui: {key: 'ui', defaultVal: settings.ui},
+      defaultState: {key: 'defaultState', defaultVal: settings.defaultState},
+      notifications: {key: 'notifications', defaultVal: settings.notifications}
+    }
+
+    async.parallel({
+        ui: initStorageSetting.bind(null, config.ui),
+        defaultState: initStorageSetting.bind(null, config.defaultState),
+        notifications: initStorageSetting.bind(null, config.notifications)
+    }, function(err, data) {
+        if (err) {
+            return callback(err);
+        }
+
+        // Set switch state based on settings
+        $('[name="cb-ui"]').bootstrapSwitch('state', data.ui, true);
+        $('[name="cb-default"]').bootstrapSwitch('state', data.defaultState, true);
+        $('[name="cb-notifications"]').bootstrapSwitch('state', data.notifications, true);
+
+        callback(null, data);
+    });
+  }
+
+  // Retrieve setting from chrome storage or update chrome storage with default setting
+  function initStorageSetting(setting, callback) { 
+    chrome.storage.sync.get(setting.key, function(data) {
+      if (data[setting.key] == null||undefined) {
+        var chromeSetting = {};
+        chromeSetting[setting.key] = setting.defaultVal;
+        chrome.storage.sync.set(chromeSetting, function() {
+          console.log('Saved setting: ' + setting.key + ': ' + setting.defaultVal);
+          callback(null, setting.defaultVal);
+        });
+      } else {
+        console.log('Retrieved setting ' + setting.key + ': ' + data[setting.key]);
+        callback(null, data[setting.key]);
+      }
+    });
+  } 
+
+  /**
+   * Handle settings changes
+   */ 
+  function registerUpdateSettingsListener() {
+    var self = this;
+    chrome.storage.onChanged.addListener(function(changes, namespace) {
+
+      console.log('changes:', changes);
+
+      for (var key in changes) {
+        var storageChange = changes[key];
+
+        console.log('key "%s" in "%s" changed', key, namespace);
+        console.log('new value: "%s"', storageChange.newValue); 
+
+        switch (key) {
+          case 'ui':
+            self.settings.ui = storageChange.newValue;
+            self.setUIConfig(storageChange.newValue, self.settings.defaultState);
+            break;
+          case 'defaultState':
+            self.settings.defaultState = storageChange.newValue;
+            self.setDefaultStateConfig(storageChange.newValue);
+            break;
+          case 'notifications':
+            self.settings.notifications = storageChange.newValue;
+            self.setNotificationsConfig(storageChange.newValue);
+            break;
+        }
+      }
+
+    });
+  }
+
+  function setUIConfig(state, defaultState) {
+    if (state) {
+      // Set defaultState to assign checkbox state
+      if (defaultState === false) {
+        defaultState = ''
+      } else {
+        defaultState = 'checked';
+      }
+
+      insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 
+                              'rtrack-checkbox', 
+                              {iconUrl: logoUrl, state: defaultState}, 
+                              '.rtrack-checkbox', 
+                              false,
+                              registerRtrackCheckboxListeners);
+    } else {
+      $('.rtrack-checkbox-container').remove();
+    }
+  }
+
+  function setDefaultStateConfig(state) {
+    if (state) {
+      $('input[name="rtrack"]').prop('checked', true);
+      this.settings.defaultState = true;
+    } else {
+      $('input[name="rtrack"]').prop('checked', false);
+      this.settings.defaultState = false;
+    }
+  }
+
+  function setNotificationsConfig(state) {
+    if (state) {
+
+    } else {
+
+    }
+  }
+
+  function setDefaultState(state) {
+    if (state) {
+      $('input[name="rtrack"]').prop('checked', true);
+    } else {
+      $('input[name="rtrack"]').prop('checked', true);
+    }
+  }
 
   /**
    * Inserts a handlebars template into DOM
@@ -174,62 +294,15 @@ var rtrack = (function() {
     });
   }
 
-  // Initializes Settings box as display: none; enhances performace and 
-  // allows for better keeping track of selected options.
-  function initSettingsUI() {
-
-    insertHandlebarsTemplate(GMAIL_SELECTORS.BASE_SCREEN, 
-                            'settings-popout', 
-                            {}, 
-                            '.settings-panel',
-                            false,
-                            registerSettingsBoxListeners);
-  } 
-
   function initComposeUI(newMessage) {
-    //addRpostEnabledClass();
 
-    // Detect reply mode or not and insert toolbar
-
-    // Insert send registered button
-    // insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 
-    //                           'send-registered-btn', 
-    //                           {}, 
-    //                           '.send-registered-btn', 
-    //                           true,
-    //                           registerSendRegisteredButtonListeners);
-    
-    // Insert RTrack checkbox 
-    insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER, 
-                              'rtrack-checkbox', 
-                              {iconUrl: logoUrl}, 
-                              '.rtrack-checkbox', 
-                              false,
-                              registerRtrackCheckboxListeners);
-
-    // Insert RTrack button
-    // insertHandlebarsTemplate(GMAIL_SELECTORS.SEND_MESSAGE_BTN_CONTAINER,
-    //                           'rtrack-btn',
-    //                           {},
-    //                           '.rtrack-btn',
-    //                           true,
-    //                           registerRtrackButtonListeners);
-    
-    // insert settings and options UI but display: none; until needed.
-
-    // if ( $(RPOST_SELECTORS.SETTINGS_BOX).length === 0 ) {
-    //   initSettingsUI();
-    // }
-    // if ( $(RPOST_SELECTORS.OPTS_BOX).length === 0 ) {
-    //   initOptionsUI();
-    // }
+    setUIConfig(settings.ui, settings.defaultState);
+    setDefaultState(settings.defaultState);
 
     setTimeout(function() {
         detectPlainTextMode(newMessage)    
       } , 350);
     registerPlainTextToggleListener();
-
-    //insertMoreOptsBar(newMessage); not shown initially, until user action
   }
 
   // TO DO: Handle plaintext
@@ -329,10 +402,6 @@ var rtrack = (function() {
     });
   }
 
-  function registerSettingsBoxListeners() {
-
-  }
-
   function send() {
     
     // transformSubjectWithParams();
@@ -354,43 +423,6 @@ var rtrack = (function() {
       console.log('Gmail send button clicked');
     });
   }
-
-  /* Get open tracking URL
-   * Get message subject
-   * Get message recipients
-   * Get date
-   * Make rest call to MailTrack API
-   * Insert URL into message
-   */
-   function insertOpenTrackingUrl() {
-      //
-   };
-
-  function transformRecipientEmailAddresses() {
-    $(GMAIL_SELECTORS.COMPOSE_RECIPIENTS).each(function() {
-      // TODO: next line is broken. Need to look at GMAIL_SELECTORS.COMPOSE_RECIPIENT_INPUT
-      var origEmail = $(this).attr(GMAIL_SELECTORS.COMPOSE_RECIPIENT_EMAIL);
-      // if (isRPostEmailAddress(origEmail)) {
-      //   // Already a valid RPost email address so leave it alone
-      //   console.log('Will not modify RPost email address %s', origEmail);
-      // } else {
-        // Here we change the hidden form input value that contains the full
-        // email address of form either "name@domain.com" or "First Last <name@domain.com>".
-        // We do not modify the displayed email address span DOM element, although
-        // we used that to get the email attribute which does not include
-        // proper names.
-        var rpEmail = origEmail + '.rpost.biz';
-        var origEmailInputEl = $(this).siblings(
-          GMAIL_SELECTORS.COMPOSE_RECIPIENT_INPUT).first();
-        var origEmailInput = origEmailInputEl.attr('value');
-        var recipientInputRegexp = new RegExp(origEmail, 'g');
-        var rpEmailInput = origEmailInput.replace(recipientInputRegexp, rpEmail);
-        origEmailInputEl.attr('value', rpEmailInput);
-        console.log('Transformed email address "%s" => "%s"', 
-          origEmailInput, rpEmailInput);
-      // }
-    });    
-  } 
 
   function setIntervalDetectGmailComposer(onDetectGmailComposer) {
     detectGmailComposerInterval = setInterval(function() {
@@ -480,7 +512,7 @@ var rtrack = (function() {
       // observer.disconnect();
   }
 
-    // ----------------------------------------------------------
+  // ----------------------------------------------------------
   // Core initialization -- starting entry point
   // ----------------------------------------------------------
 
@@ -491,6 +523,12 @@ var rtrack = (function() {
   }
 
   return {
+    settings: settings,
+    initSettings: initSettings,
+    registerUpdateSettingsListener: registerUpdateSettingsListener,
+    setUIConfig: setUIConfig,
+    setDefaultStateConfig: setDefaultStateConfig,
+    setNotificationsConfig: setNotificationsConfig,
     setIntervalDetectGmailComposer : setIntervalDetectGmailComposer,
     initComposer : initComposer,
     detectGmailComposer : detectGmailComposer,

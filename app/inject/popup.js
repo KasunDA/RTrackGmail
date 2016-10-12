@@ -61,7 +61,6 @@ var RTRACK_OPTIONS = function() {
 
 	// Initialize settings
 	function initSettings(callback) {
-
 		initStorage(this.settings, function(err, data) {
 			if (err) {
 				return callback(err);

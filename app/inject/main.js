@@ -45,7 +45,7 @@ var main = function() {
 			return null;
 		}
 
-		var recipients = RTRACK.getRecipients(data);
+		var recipients = RTRACK_UTIL.getRecipients(data);
 		//var recipients = data;
 
 		var postData = {
@@ -209,9 +209,9 @@ var RTRACK_API = (function() {
 })();
 
 /**
- * RTRACK -  RTrack helper functions
+ * RTRACK_UTIL -  RTrack helper functions
  */
-var RTRACK = (function() {
+var RTRACK_UTIL = (function() {
 
 	/**
 	 * getRecipients returns a recipients objects with the 
